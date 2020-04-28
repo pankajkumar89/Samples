@@ -1,0 +1,31 @@
+Install the Azure command line interface
+
+sudo apt-get update
+
+sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
+
+curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
+    gpg --dearmor | \
+    sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+
+AZ_REPO=$(lsb_release -cs)
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
+    sudo tee /etc/apt/sources.list.d/azure-cli.list
+
+sudo apt-get update
+sudo apt-get install azure-cli
+
+
+az acr create --resource-group azuredemo --name demoregistry2020 --sku Basic
+
+Push an image
+sudo az acr login --name demoregistry2020
+
+sudo docker tag demoapp demoregistry2020.azurecr.io/azuredemoapp
+
+sudo docker push demoregistry2020.azurecr.io/azuredemoapp
+
+Remove all images
+sudo docker rmi image
+
+sudo docker run -d -p 5000:80 --name azurev1 demoregistry2020.azurecr.io/azuredemoapp

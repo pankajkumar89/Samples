@@ -1,0 +1,23 @@
+Azure CLI Commands
+
+
+//Upload a blob
+az storage blob upload --container-name demo --name audio.log --file audio.log --account-name "appstore2020" --account-key "LBQYIIfW/HCDNfjEr7pXGlG4Wmb4JTlhW3pNzRTTln3kSOjd14aiKdIgCDP8Mxbed60QTMynJgp9nB4D6+DtcQ=="
+
+cd $HOME/data
+copy audio.log $HOME/data
+
+//Upload multiple blobs
+az storage blob upload-batch --destination demo --source $HOME/data --account-name "demolog2020" --account-key "cLvlR0iNmDqIfZ06v+FYY/iiaXICzZrM58urrG4lb5CEr3UqS9oI6odTSjWG+pukcw27dWbEaqgfELQgsEOS7A=="
+
+//Moving between storage accounts
+az storage blob copy start --account-name "destination2020" --account-key "iB0Sl01xVXL3kMjdidGitIbFW/XMrQ5OnPhRI61sLOWvRM/0x68pXhBgRcE5TWwSAHqei0SwD9doigqIX67dDQ==" --destination-container destination --destination-blob audio.log --source-account-name "appstore2020" --source-account-key "LBQYIIfW/HCDNfjEr7pXGlG4Wmb4JTlhW3pNzRTTln3kSOjd14aiKdIgCDP8Mxbed60QTMynJgp9nB4D6+DtcQ==" --source-container demo --source-blob audio.log 
+
+Using the AzCopy tool
+
+//Upload a blob
+.\azcopy.exe copy audio.log "https://appstore2020.blob.core.windows.net/demo?sv=2018-03-28&ss=b&srt=sco&sp=rwlac&se=2019-09-26T17:46:08Z&st=2019-09-26T09:46:08Z&spr=https&sig=jLW1Mdi%2FWHupqANFmVmZvL0xjAlKwGj7CuD6KtktTl0%3D"
+
+
+//Moving between storage accounts
+.\azcopy copy "https://demolog2020.blob.core.windows.net/demo?sv=2018-03-28&ss=b&srt=sco&sp=rwlac&se=2019-09-19T23:00:56Z&st=2019-09-19T15:00:56Z&spr=https&sig=KO%2BO6Oa0Ntc0xga826KC25IqhU7eqsycweM5mA5LaTY%3D" "https://demodestination.blob.core.windows.net/destination?sv=2018-03-28&ss=b&srt=sco&sp=rwlac&se=2019-09-19T23:05:40Z&st=2019-09-19T15:05:40Z&spr=https&sig=w6qKSrrT6cNb2nj4ZAz9mbi%2BnIaw1DHLSW89wfvhdd8%3D" --recursive

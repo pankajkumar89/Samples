@@ -1,0 +1,53 @@
+
+// Create this table to test a simple example of using a single table for the entity framework
+CREATE TABLE demodb.dbo.Customer (
+    customerid INT PRIMARY KEY IDENTITY (1, 1),
+    first_name VARCHAR (50) NOT NULL,
+    last_name VARCHAR (50) NOT NULL
+);
+
+insert into demodb.dbo.Customer(first_name,last_name) values ('John','Smith');
+insert into demodb.dbo.Customer(first_name,last_name) values ('Dave','Young');
+
+// Create this table to test a one-to-many relationship
+CREATE TABLE demodb.dbo.Orders(
+Orderid INT PRIMARY KEY IDENTITY (1, 1), 
+Ordervalue INT,
+customerid INT NOT NULL,
+FOREIGN KEY (customerid) REFERENCES demodb.dbo.Customer(customerid));
+
+insert into demodb.dbo.Orders(Ordervalue,customerid) values (10,1);
+insert into demodb.dbo.Orders(Ordervalue,customerid) values (20,2);
+
+// Create the following tables for a different example to showcase a many-to-many relationship
+
+CREATE TABLE demodb.dbo.Student(
+ studentid INT PRIMARY KEY IDENTITY (1, 1),
+ first_name VARCHAR (50) NOT NULL,
+ last_name VARCHAR (50) NOT NULL);
+
+
+CREATE TABLE demodb.dbo.Course(
+Courseid INT PRIMARY KEY, 
+CourseName VARCHAR (50) NOT NULL);
+
+// This is the junction table
+CREATE TABLE demodb.dbo.student_course(
+studentid INT,
+Courseid INT,
+PRIMARY KEY(studentid,Courseid),
+FOREIGN KEY (studentid) REFERENCES demodb.dbo.Student(studentid),
+FOREIGN KEY (Courseid) REFERENCES demodb.dbo.Course(Courseid)
+);
+
+insert into demodb.dbo.Student(first_name,last_name) values ('John','Smith');
+insert into demodb.dbo.Student(first_name,last_name) values ('Dave','Young');
+
+insert into demodb.dbo.Course(Courseid,CourseName) values (100,'Big Data');
+insert into demodb.dbo.Course(Courseid,CourseName) values (101,'Architect');
+
+insert into demodb.dbo.student_course(studentid,Courseid) values (1,100);
+insert into demodb.dbo.student_course(studentid,Courseid) values (1,101);
+insert into demodb.dbo.student_course(studentid,Courseid) values (2,101);
+
+
